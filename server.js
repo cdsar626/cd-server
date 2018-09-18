@@ -54,6 +54,7 @@ app.get('/files', function(req, res) {
 
 //<--------- Fin Listar Archivos -------->
 app.use(express.static('./dist'));
+app.use(express.static('/data/files-server'));
 
 //<------- Inicio File Upload ------>
 
