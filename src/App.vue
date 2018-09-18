@@ -6,7 +6,6 @@
         <li><router-link to="/" exact>Inicio</router-link></li>
         <li><router-link to="/files">Archivos</router-link></li>
         <li><router-link to="/upload">Upload</router-link></li>
-        <li><router-link to="/paises">Paises</router-link></li>
         <li><router-link to="/about">Acerca</router-link></li>
       </ul>
     </nav>
