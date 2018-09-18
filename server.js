@@ -31,7 +31,7 @@ app.use(compress());
 
 app.get('/files', function(req, res) {
   let fileList=[];
-  const pathToFiles = path.join(__dirname, 'dist/files');
+  const pathToFiles = path.join('/data/files-server');
   fs.readdir(pathToFiles, (err, files) => {
     if (err) {
       return console.log('Unable to scan directory: ' + err);
@@ -66,7 +66,7 @@ app.post('/upload', function(req, res){
   form.maxFileSize = 1024 * 1024 * 1024; // 1024*1024 = MegaBytes
   form.parse(req);
   form.on('fileBegin', function(name, file){
-    file.path = './dist/files/' + file.name;
+    file.path = '/data/files-server/' + file.name;
   });
   form.on('file', function(name, file){
     console.log(`uploaded ${file.name} succesfully!`);
