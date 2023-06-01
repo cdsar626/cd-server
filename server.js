@@ -8,6 +8,9 @@ const fs = require('fs');
 const path = require('path');
 
 
+const PORT = 626;
+const BASEPATH = "/root/cd-server/dist";
+const FILESPATH = "/files";
 // Configuracion de certificado SSL (HTTPS)
 //const fs = require('fs');
 /*
@@ -31,7 +34,7 @@ app.use(compress());
 
 app.get('/files', function(req, res) {
   let fileList=[];
-  const pathToFiles = path.join('/data/files-server');
+  const pathToFiles = path.join(BASEPATH + FILESPATH);
   fs.readdir(pathToFiles, (err, files) => {
     if (err) {
       return console.log('Unable to scan directory: ' + err);
@@ -53,8 +56,8 @@ app.get('/files', function(req, res) {
 })
 
 //<--------- Fin Listar Archivos -------->
-app.use(express.static('./dist'));
-app.use('/files', express.static('/data/files-server'));
+app.use(express.static(BASEPATH)); // Web server base path
+app.use('/files', express.static(BASEPATH + FILESPATH)); // Files directory path
 
 //<------- Inicio File Upload ------>
 
@@ -65,15 +68,22 @@ app.use('/files', express.static('/data/files-server'));
 app.post('/upload', function(req, res){
   var form = new formidable.IncomingForm();
   form.maxFileSize = 1024 * 1024 * 1024; // 1024*1024 = MegaBytes
-  form.parse(req);
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      next(err);
+      return;
+    }
+  });
   form.on('fileBegin', function(name, file){
-    file.path = '/data/files-server/' + file.name;
+    file.path =`${BASEPATH}${FILESPATH}/${file.name}`;
+    console.log("empezo si quiera: " + file.path);
   });
   form.on('file', function(name, file){
     console.log(`uploaded ${file.name} succesfully!`);
+    res.sendStatus(200);
   });
 })
 //<------ Fin File Upload ------->
 
-app.listen(8080, () => console.log('http escuchando en puerto 8080'));
+app.listen(PORT, () => console.log('http escuchando en puerto' + PORT));
 // https.createServer(sslopt,app).listen(443, () => console.log('https escuchando en puerto 443'));
