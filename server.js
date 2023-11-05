@@ -8,8 +8,8 @@ const fs = require('fs');
 const path = require('path');
 
 
-const PORT = 626;
-const BASEPATH = "/root/cd-server/dist";
+const PORT = 6261;
+const BASEPATH = "/home/cdsar626/Documents/projects/cd-server/dist";
 const FILESPATH = "/files";
 // Configuracion de certificado SSL (HTTPS)
 //const fs = require('fs');
